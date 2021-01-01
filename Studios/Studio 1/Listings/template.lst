@@ -1,0 +1,169 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;Template - Defining an Assembly File 
+    2 00000000         ;
+    3 00000000         ; McMaster 2DX4 
+    4 00000000         ; Read Text Chapters 3 and 4 for more info
+    5 00000000         
+    6 00000000         ; Original: Copyright 2014 by Jonathan W. Valvano, valva
+                       no@mail.utexas.edu
+    7 00000000         
+    8 00000000         
+    9 00000000         ;ADDRESS SETUP
+   10 00000000         ;Define your I/O Port Addresses Here
+   11 00000000         
+   12 00000000 400FE608 
+                       SYSCTL_RCGCGPIO_R
+                               EQU              0x400FE608  ;General-Purpose In
+                                                            put/Output Run Mode
+                                                             Clock Gating Contr
+                                                            ol Register
+   13 00000000 4005D400 
+                       GPIO_PORTF_DIR_R
+                               EQU              0x4005D400  ;GPIO Port F DIR Re
+                                                            gister
+   14 00000000 4005D51C 
+                       GPIO_PORTF_DEN_R
+                               EQU              0x4005D51C  ;GPIO Port F DEN Re
+                                                            gister
+   15 00000000 4005D3FC 
+                       GPIO_PORTF_DATA_R
+                               EQU              0x4005D3FC  ;GPIO Port F DATA R
+                                                            egister 
+   16 00000000         
+   17 00000000         
+   18 00000000         
+   19 00000000         
+   20 00000000         
+   21 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   22 00000000                 THUMB
+   23 00000000                 EXPORT           Start
+   24 00000000         
+   25 00000000         ;Function PortF_Init
+   26 00000000         PortF_Init
+   27 00000000         ;STEP 1
+   28 00000000 490C            LDR              R1, =SYSCTL_RCGCGPIO_R
+   29 00000002 6808            LDR              R0, [R1]
+   30 00000004 F040 0020       ORR              R0,R0, #0x20
+   31 00000008 6008            STR              R0, [R1]
+   32 0000000A BF00            NOP
+   33 0000000C BF00            NOP
+   34 0000000E         
+   35 0000000E         ;STEP 5
+   36 0000000E 490A            LDR              R1, =GPIO_PORTF_DIR_R
+   37 00000010 6808            LDR              R0, [R1]
+   38 00000012 F040 0010       ORR              R0,R0, #0x10
+   39 00000016 6008            STR              R0, [R1]
+   40 00000018         ;STEP 7
+   41 00000018 4908            LDR              R1, =GPIO_PORTF_DEN_R
+   42 0000001A 6808            LDR              R0, [R1]
+   43 0000001C F040 0010       ORR              R0,R0, #0x10
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   44 00000020 6008            STR              R0, [R1]
+   45 00000022 4770            BX               LR          ; return from funct
+                                                            ion 
+   46 00000024         
+   47 00000024         Start
+   48 00000024 F7FF FFEC       BL               PortF_Init  ; calls and execute
+                                                             your PortN_Init fu
+                                                            nction
+   49 00000028         ;STEP 8    
+   50 00000028 4905            LDR              R1, =GPIO_PORTF_DATA_R
+   51 0000002A 6808            LDR              R0, [R1]
+   52 0000002C F040 0010       ORR              R0,R0, #0x10
+   53 00000030 6008            STR              R0, [R1]
+   54 00000032 00 00           ALIGN                        ; directive for ass
+                                                            embly   
+   55 00000034                 END                          ; End of function 
+              400FE608 
+              4005D400 
+              4005D51C 
+              4005D3FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
+interwork --depend=.\objects\template.d -o.\objects\template.o -I.\RTE\_Target_
+1 -IC:\Users\moham\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include -
+IC:\Users\moham\AppData\Local\Arm\Packs\TexasInstruments\MSP432E4_DFP\3.2.6\Dev
+ice\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 529
+" --predefine="_RTE_ SETA 1" --predefine="__MSP432E401Y__ SETA 1" --list=.\list
+ings\template.lst Template.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 21 in file Template.s
+   Uses
+      None
+Comment: .text unused
+PortF_Init 00000000
+
+Symbol: PortF_Init
+   Definitions
+      At line 26 in file Template.s
+   Uses
+      At line 48 in file Template.s
+Comment: PortF_Init used once
+Start 00000024
+
+Symbol: Start
+   Definitions
+      At line 47 in file Template.s
+   Uses
+      At line 23 in file Template.s
+Comment: Start used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTF_DATA_R 4005D3FC
+
+Symbol: GPIO_PORTF_DATA_R
+   Definitions
+      At line 15 in file Template.s
+   Uses
+      At line 50 in file Template.s
+Comment: GPIO_PORTF_DATA_R used once
+GPIO_PORTF_DEN_R 4005D51C
+
+Symbol: GPIO_PORTF_DEN_R
+   Definitions
+      At line 14 in file Template.s
+   Uses
+      At line 41 in file Template.s
+Comment: GPIO_PORTF_DEN_R used once
+GPIO_PORTF_DIR_R 4005D400
+
+Symbol: GPIO_PORTF_DIR_R
+   Definitions
+      At line 13 in file Template.s
+   Uses
+      At line 36 in file Template.s
+Comment: GPIO_PORTF_DIR_R used once
+SYSCTL_RCGCGPIO_R 400FE608
+
+Symbol: SYSCTL_RCGCGPIO_R
+   Definitions
+      At line 12 in file Template.s
+   Uses
+      At line 28 in file Template.s
+Comment: SYSCTL_RCGCGPIO_R used once
+4 symbols
+344 symbols in table
